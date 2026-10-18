@@ -15,8 +15,9 @@ Kritva Skill owns: the Skill manifest and execution contract: skill identity and
 
 ## 3. Commits and pull requests
 
-- Commit header: `type(scope): summary` (feat, fix, docs, refactor, test, build, ci, chore, perf, revert), at most 72 characters.
-- Exactly one footer `Task: KOS-SKILL-NNN`. Check with `python3 scripts/security/check_commit_format.py --range origin/main..HEAD`.
+- Commit header: `type(scope): summary` (feat, fix, docs, refactor, test, build, ci, chore, perf, revert, security), at most 90 characters; an optional `[KOS-SKILL-NNN]` suffix must match the footer.
+- Exactly one footer line, `Task: KOS-SKILL-NNN` or `Tasks: KOS-SKILL-NNN, KOS-SKILL-NNN`; a docs or chore commit that implements no task uses `Tasks: None (reason)`. Check with `python3 scripts/security/check_commit_format.py --range origin/main..HEAD`.
+- Merge method is a merge commit (kritva-program D-053). PRs use `.github/PULL_REQUEST_TEMPLATE.md`.
 - Never add a `Claude-Session:` trailer or a claude.ai session link to a commit. `commit-message-check` blocks them.
 - Open a PR; do not push to `main`. Required checks: secret-scan, commit-message-check.
 
