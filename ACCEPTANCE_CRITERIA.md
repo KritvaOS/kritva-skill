@@ -21,6 +21,7 @@ kritva-core (approved contract), kritva-mind and kritva-motion (versioned contra
 | AC-003 | The skill lifecycle (loaded, running, completed, cancelled, failed) is specified and conformance-tested. | lifecycle tests |
 | AC-004 | Resource use and failures are reported in defined fields. | failure-path tests |
 | AC-005 | Skill orchestrates capabilities through declared interfaces only; capability repositories never depend on Skill. | dependency review |
+| AC-006 | A proposal from another capability (for example a Mind result) is independently resolved, validated and authorized by Skill; a rejected proposal executes nothing, and the execution report links back to the proposal. Design: [docs/design/MIND_SKILL_INTERFACE.md](docs/design/MIND_SKILL_INTERFACE.md) (proposed). | proposal-handling and traceability tests |
 
 ## 4. Interface and API compatibility
 
