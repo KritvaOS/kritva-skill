@@ -1,6 +1,6 @@
 # REV-007: kritva-skill governance baseline (V2-M0-SKILL-001)
 
-Status: PREPARED, OWNER DECISION PENDING.
+Status: APPROVED by the owner (D-114, 2026-11-07); ruleset and CODEOWNERS verified against GitHub on 2026-11-07 (D-115).
 Reviewed commit: `c17192001f6c672819589857e8644ad21573d8d8` (local `main` HEAD on 2026-11-07; confirm it equals GitHub `main` when the owner reviews).
 Program record: REV-007 in kritva-program `v2/planning/PENDING_REVIEWS.md`.
 Related plan: kritva-program `v2/planning/M0_CLOSURE_PLAN.md` and `v2/planning/M0_TASK_DEFINITIONS.md`.
@@ -14,8 +14,8 @@ Title: Skill governance baseline accepted. Weight: 3. Registered as a `KOS-SKILL
 | Criterion | Statement | Evidence at the reviewed commit | Result |
 |---|---|---|---|
 | AC-M0-1 | Governance files exist: `AGENTS.md`, `ACCEPTANCE_CRITERIA.md`, `SECURITY.md`, `.github/CODEOWNERS`, `.github/kritva-gate.json` | All present | PRESENT |
-| AC-M0-2 | Required checks are defined and named the same in workflows and `.github/kritva-gate.json` | `kritva-gate.json` lists `secret-scan`, `commit-message-check`, `pr-acceptance-gate`; workflows of the same names exist. `readme-check` workflow also exists and is not required | MATCH (job names not compared line by line) |
-| AC-M0-3 | The branch ruleset on `main` requires those checks, a pull request, and the approvals `REPO_CODE_OWNER` and `ARCHITECTURE_REVIEWER` | GitHub settings, not visible from the repository | OWNER TO ATTEST |
+| AC-M0-2 | Required checks are defined and named the same in workflows, `.github/kritva-gate.json` and the ruleset: `secret-scan`, `commit-message-check`, `pr-acceptance-gate`, `readme-check` | Workflow job names match. The ruleset requires `readme-check`; the gate file is aligned by PR #13 (merge it first) | MATCH after PR #13 |
+| AC-M0-3 | The branch ruleset on `main` requires a pull request and the required checks. The approval roles `REPO_CODE_OWNER` and `ARCHITECTURE_REVIEWER` are held by the owner on an interim basis (D-047) and are not enforced by the ruleset (D-115) | Checked 2026-11-07 through the GitHub rulesets API: ruleset `protect-main` is active on the default branch, blocks deletion and force-push, requires a pull request with 0 approving reviews and no code-owner review, and requires pr-acceptance-gate, commit-message-check, readme-check, secret-scan. Bypass actors are not visible without admin access | PARTIAL: pull request and checks verified; approvals not enforced |
 | AC-M0-4 | Commit policy is enforced by an automated check | `commit-message-check` workflow; checker tests in `tests/commit_message_check/` run by `make check` | PRESENT |
 | AC-M0-5 | The program has a status source for Skill | None: there is no `status/` directory and Skill is not registered on a program workstream (PD-014) | NOT MET until PD-014 is decided |
 | AC-M0-6 | Planning records are consistent and no unimplemented gate is reported as passing | `make lint`, `test-unit`, `test-integration`, `test-regression`, `test` and `acceptance` are NOT_IMPLEMENTED (exit 3), none reported as passing. There is no `unit-tests` workflow because there is no code | CONSISTENT |
@@ -27,21 +27,22 @@ Title: Skill governance baseline accepted. Weight: 3. Registered as a `KOS-SKILL
 
 ## 3. CI evidence
 
-There is no `unit-tests` workflow. Record the passing runs of the required checks on the reviewed commit:
+Recorded 2026-11-07 from the GitHub check runs on the reviewed commit:
 
-- secret-scan run id: ____
-- commit-message-check run id: ____
-- pr-acceptance-gate run id: ____
-- commit: ____
+- secret-scan run id: 41598873743 (success, push run on `main`)
+- readme-check run id: 41598873766 (success)
+- commit: `c17192001f6c672819589857e8644ad21573d8d8`
+- `commit-message-check` and `pr-acceptance-gate` run on pull requests, so they have no run on this commit. Skill has no `unit-tests` workflow.
 
-## 4. Owner attestations
+## 4. Verification of ruleset and CODEOWNERS (2026-11-07)
 
-- [ ] Ruleset on `main` requires pull request, the three required checks, and both approval roles (AC-M0-3).
-- [ ] CODEOWNERS entries are the intended approvers.
+- Ruleset: verified as stated in AC-M0-3. The approval requirement is not enforced; the owner merges under the interim reviewer roles of D-047.
+- CODEOWNERS: verified. `*` and the protected files (`.github/`, `SECURITY.md`, `LICENSE`, `ACCEPTANCE_CRITERIA.md`) are owned by `@dineshannayya`. GitHub does not enforce code-owner review because the ruleset does not require it.
+- Not verified: bypass actors (admin access needed).
 
 ## 5. Decision
 
-Decision: PENDING
-Decided by: ____
-Date: ____
-Notes: ____
+Decision: APPROVED (owner, interim reviewer roles of D-047; recorded in D-114 on 2026-11-07; verification in D-115)
+Decided by: Dinesh
+Date: 2026-11-07
+Notes: This is not independent review.
