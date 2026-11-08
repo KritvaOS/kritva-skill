@@ -62,7 +62,63 @@
   },
   "repo": "Skill",
   "repository": "KritvaOS/kritva-skill",
-  "schema_version": 1,
+  "schema_version": 2,
+  "tasks": [
+    {
+      "accepted": true,
+      "execution": "COMPLETE",
+      "id": "KOS-SKILL-M0-001",
+      "kind": "baselined",
+      "milestone": "M0",
+      "title": "Skill governance and acceptance review",
+      "weight": 3
+    },
+    {
+      "accepted": false,
+      "execution": "IN_PROGRESS",
+      "id": "KOS-SKILL-001",
+      "kind": "planned",
+      "milestone": "M1",
+      "title": "Skill foundational contract and capability integration",
+      "weight": 5
+    },
+    {
+      "accepted": false,
+      "execution": "NOT_STARTED",
+      "id": "PROPOSED-NEW-SKILL-002",
+      "kind": "planned",
+      "milestone": "M2",
+      "title": "Skill build and package integration",
+      "weight": 4
+    },
+    {
+      "accepted": false,
+      "execution": "NOT_STARTED",
+      "id": "PROPOSED-NEW-SKILL-003",
+      "kind": "planned",
+      "milestone": "M3",
+      "title": "Skill Control Plane registration and consumption",
+      "weight": 5
+    },
+    {
+      "accepted": false,
+      "execution": "NOT_STARTED",
+      "id": "PROPOSED-NEW-SKILL-004",
+      "kind": "planned",
+      "milestone": "M5",
+      "title": "Skill runtime execution against simulated capabilities",
+      "weight": 6
+    },
+    {
+      "accepted": false,
+      "execution": "NOT_STARTED",
+      "id": "PROPOSED-NEW-SKILL-005",
+      "kind": "planned",
+      "milestone": "M8",
+      "title": "Skill production readiness and release review",
+      "weight": 6
+    }
+  ],
   "titles": {
     "M0": "Foundation",
     "M1": "Studio",
