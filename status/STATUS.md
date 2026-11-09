@@ -29,6 +29,26 @@ Accepted weight over total weight, where total covers completed Foundation work,
 
 Milestone dates are owner-approved planning dates in the program, not delivery commitments.
 
+## Baselined tasks
+
+Tasks in the approved program baseline. Weight is the baseline weight. Acceptance is decided by kritva-program; execution is this repository's own report.
+
+| Task | Title | Milestone | Weight | Execution | Acceptance |
+|---|---|---|---|---|---|
+| `KOS-SKILL-M0-001` | Skill governance and acceptance review | M0 | 3 | COMPLETE | ACCEPTED |
+
+## Planned tasks (not baselined)
+
+Owner-approved V2 planning scope that is not in the baseline yet. Weights are estimates (point value). These earn no credit until they are baselined and accepted.
+
+| Task | Title | Milestone | Estimated weight | Execution | Acceptance |
+|---|---|---|---|---|---|
+| `KOS-SKILL-001` | Skill foundational contract and capability integration | M1 | 5 | IN_PROGRESS | NOT BASELINED |
+| `PROPOSED-NEW-SKILL-002` | Skill build and package integration | M2 | 4 | NOT_STARTED | NOT BASELINED |
+| `PROPOSED-NEW-SKILL-003` | Skill Control Plane registration and consumption | M3 | 5 | NOT_STARTED | NOT BASELINED |
+| `PROPOSED-NEW-SKILL-004` | Skill runtime execution against simulated capabilities | M5 | 6 | NOT_STARTED | NOT BASELINED |
+| `PROPOSED-NEW-SKILL-005` | Skill production readiness and release review | M8 | 6 | NOT_STARTED | NOT BASELINED |
+
 ## Four states, kept apart
 
 | State | This repository | Decided by |
