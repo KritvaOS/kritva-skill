@@ -148,6 +148,8 @@ CI runs four workflows. `make check` is a local command and is not the same as C
 | `make check` | check | required planning files exist; the commit-message checker's unit tests run; it does not run `docs-check`, the PR gate or any contract test |
 | `make docs-check` | check | every relative Markdown link points to an existing file (not an anchor check) |
 | `make check-readme` | check | structural check of this README only (metadata, topics, relative links, placeholders); a PASS does not show the content is accurate; not part of `make check` or CI |
+| `make preflight` | check | the CI checks run locally: `make check`, `make docs-check`, `make check-readme` and the README checker tests, `make progress-check`, the commit checks and the static PR gate over your branch commits, and no test target (the test targets are NOT_IMPLEMENTED and are left out, never counted as a pass); lists every failure; run `git fetch origin` first; it does not run `secret-scan` and does not replace CI |
+| `make hooks-install`, `make preflight-hook-off` | modify | `hooks-install` makes `git push` run `make preflight` in this clone; `preflight-hook-off` turns that off (`git push --no-verify` skips it once) |
 | `make lint`, `make test-unit`, `make test-integration`, `make test-regression`, `make test`, `make acceptance` | placeholder | print NOT_IMPLEMENTED and exit 3: they check nothing and are never a pass |
 | `python3 scripts/security/check_commit_format.py --range origin/main..HEAD` | check | the commit format of the commits on a branch (the PR gate runs the same check as rule R01) |
 
