@@ -1,7 +1,7 @@
 # ADR-005: Mind Proposal Eligibility and Per-Proposal Disposition
 
 **Task:** KOS-SKILL-001  
-**Status:** PROPOSED — AGREED IN ARCHITECTURE DISCUSSION; PENDING REPOSITORY ADOPTION THROUGH PR REVIEW
+**Status:** PROPOSED — REPOSITORY-ADOPTED; NORMATIVE CONTRACT APPROVAL PENDING UPSTREAM REVIEW
 **Decision:** C — Per-proposal disposition with strict initial eligibility  
 **Decision date:** 2026-11-27
 
