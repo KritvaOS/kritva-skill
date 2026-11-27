@@ -1,6 +1,6 @@
 # KOS-SKILL-001: Skill manifest and execution contract
 
-Status: IN_PROGRESS. Milestone: V2-M1-SKILL-001. Criteria (proposed): [ACCEPTANCE_CRITERIA.md](../../ACCEPTANCE_CRITERIA.md) section 3.
+Status: IN_PROGRESS. Milestone: V2-M1-SKILL-001. Eight architecture decisions are proposed, agreed in discussion and pending repository adoption; consolidation package is proposed on branch docs/kos-skill-001-architecture-consolidation and awaits repository review/adoption. Criteria (proposed): [ACCEPTANCE_CRITERIA.md](../../ACCEPTANCE_CRITERIA.md) section 3.
 
 ## Start
 
@@ -16,10 +16,16 @@ The joint Mind and Skill contract review is blocked until Skill has a manifest a
 
 ## Work so far
 
-- [Design note, proposed](../../docs/design/MIND_SKILL_INTERFACE.md): answers to Mind's seven questions. Not approved.
+- [Design note, proposed](../../docs/design/MIND_SKILL_INTERFACE.md): answers to Mind's seven questions; reconciled with the proposed architecture decisions agreed in discussion, but remains a draft input.\n- [Architecture consolidation package](../../docs/architecture/README.md): architecture overview, ADR-001 through ADR-008 and upstream dependency register; repository adoption pending.
 
 ## Not done
 
 - No manifest schema, no execution-contract schema, no tests; `make test-unit`, `make test-integration` and `make test-regression` are NOT_IMPLEMENTED.
 - No Mind, Motion or Core contract version is pinned.
-- No review. The architecture reviewer is the owner on an interim basis (program decision D-047), so nothing here is independent review.
+- The architecture package has not yet completed repository review or required PR approvals. The architecture reviewer is the owner on an interim basis (program decision D-047), so owner review is not independent review.
+
+## Programme alignment and schedule
+
+The kritva-program v12 planning snapshot lists proposed future Skill work items: `PROPOSED-NEW-SKILL-002` (M2 build/package), `PROPOSED-NEW-SKILL-003` (M3 Control Plane registration), `PROPOSED-NEW-SKILL-004` (M5 runtime against simulated capabilities), and `PROPOSED-NEW-SKILL-005` (M8 production readiness). These are not registered as task IDs in this repository's `planning/TASKS.md`; any addition or change requires a kritva-program baseline amendment.
+
+The proposed M1 target date 2026-11-30 is withdrawn as a credible delivery target. This task is currently architecture documentation only; normative schemas remain outstanding. A revised target date must be approved and recorded by kritva-program. No M1 progress or completion is claimed.

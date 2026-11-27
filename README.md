@@ -12,7 +12,7 @@
 | Lifecycle Status | PLANNING (governance baseline only) |
 | Repository Owner | Project owner (role; see section 15) |
 | Security Owner | Security Owner role ([SECURITY.md](SECURITY.md)) |
-| Architecture | Not yet defined: the architecture task KOS-SKILL-001 is proposed and not approved (see [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md)) |
+| Architecture | proposed architecture decisions in discussion; proposed consolidation package pending repository adoption ([docs/architecture/](docs/architecture/)) |
 | Milestones | [planning/MILESTONE.md](planning/MILESTONE.md) and [planning/MILESTONE_STATUS.md](planning/MILESTONE_STATUS.md) |
 | Tasks | [planning/TASKS.md](planning/TASKS.md) |
 | Acceptance Criteria | [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md) |
@@ -29,7 +29,7 @@ Kritva Skill is the part of Kritva OS V2 that will own the Skill manifest and ex
 
 **This repository does not own**: capability implementations (kritva-sense, -motion, -mind), the control plane (kritva-raas), and the platform foundation (kritva-core).
 
-**Implementation state.** IMPLEMENTED: the governance baseline only: the planning records under [planning/](planning/), the acceptance criteria, the pull-request workflows and their scripts, the commit-message checker with its tests, and the `Makefile` structure check. NOT YET IMPLEMENTED: the contract, any source code, tests of the contract, a `src/` folder, unit, integration and regression gates, status reporting and any release. PROPOSED: the first task KOS-SKILL-001 (Skill manifest and execution contract), which is "NOT_STARTED (proposed, awaiting owner approval)" in [planning/TASKS.md](planning/TASKS.md). Source folders are added only when a real task needs them, so their absence is intended and is not a defect.
+**Implementation state.** IMPLEMENTED: governance baseline and repository checks. ARCHITECTURE: eight proposed ADRs agreed in discussion and pending repository adoption have been consolidated under [docs/architecture/](docs/architecture/). NOT YET IMPLEMENTED: normative manifest/execution schemas, runtime, source code, contract tests, unit/integration/regression gates and release. KOS-SKILL-001 is IN_PROGRESS; its acceptance criteria remain proposed and no programme credit is implied. Source folders are added only when a real task needs them, so their absence is intended and is not a defect.
 
 ## 2. Position in the KritvaOS Ecosystem
 
@@ -37,7 +37,7 @@ Kritva Skill is one of the capability repositories planned for Kritva OS V2, nex
 
 ## 3. Architecture
 
-Not yet defined. The architecture and contract are the subject of task KOS-SKILL-001, which is proposed and not approved; its criteria are in [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md) section 3. Until that task is approved and accepted there is no architecture document in this repository, and nothing in the planning files is an interface that other repositories may rely on. Interfaces are intended to be contract-first and versioned independently of program phases ([AGENTS.md](AGENTS.md)). Skill describes how capabilities are declared and executed; conformance of a manifest is a software property and does not show that an executed skill is safe on a robot.
+The proposed architecture package is under [docs/architecture/](docs/architecture/). It records eight ADRs agreed in discussion and pending repository adoption; they are not yet normative or externally consumable interfaces. KOS-SKILL-001 remains IN_PROGRESS; its acceptance criteria are still proposed. Normative schemas, upstream compatibility pins, implementation and conformance tests remain outstanding. Interfaces are contract-first and versioned independently of program phases ([AGENTS.md](AGENTS.md)). Manifest conformance is a software property and does not show that an executed Skill is safe on a robot.
 
 ## 4. Documents to Read First
 
@@ -47,14 +47,15 @@ Role first, then the status the document declares. A label is a role, not an app
 |---|---|---|---|
 | 1 | [AGENTS.md](AGENTS.md) | AUTHORITATIVE for the rules for agents and contributors in this repository; in force | Scope, boundaries, commits, tests, tags |
 | 2 | [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md) | AUTHORITATIVE for the acceptance criteria of KOS-SKILL-001; PROPOSED (not accepted, weighted or credited) | What the first task must satisfy |
-| 3 | [planning/TASKS.md](planning/TASKS.md) | AUTHORITATIVE for this repository's task inventory (proposed registry, PD-004) | Which tasks exist and their status |
-| 4 | [planning/MILESTONE.md](planning/MILESTONE.md) | REFERENCE: generated from kritva-program; dates are proposed targets, not approved | Proposed milestones |
-| 5 | [planning/MILESTONE_STATUS.md](planning/MILESTONE_STATUS.md) | REFERENCE: the repository's own record, as of the governance baseline commit | Milestone status and evidence |
-| 6 | [planning/REVIEW_CHECKLIST.md](planning/REVIEW_CHECKLIST.md) | AUTHORITATIVE for the pull-request review list | What a reviewer checks |
-| 7 | [planning/GIT_COMMIT_STEP.md](planning/GIT_COMMIT_STEP.md) | REFERENCE | How to branch, commit, check, merge and tag |
-| 8 | [planning/CHANGELOG.md](planning/CHANGELOG.md) | REFERENCE | What changed |
-| 9 | [CONTRIBUTING.md](CONTRIBUTING.md) | AUTHORITATIVE for contribution steps | How to contribute |
-| 10 | [SECURITY.md](SECURITY.md) | AUTHORITATIVE for vulnerability reporting (route tested 18 October 2026, owner-attested) | How to report a vulnerability |
+| 3 | [docs/architecture/README.md](docs/architecture/README.md) | PROPOSED architecture consolidation package; owner decisions recorded, repository adoption pending | Architecture decisions and dependencies |
+| 4 | [planning/TASKS.md](planning/TASKS.md) | AUTHORITATIVE for this repository's task inventory (proposed registry, PD-004) | Which tasks exist and their status |
+| 5 | [planning/MILESTONE.md](planning/MILESTONE.md) | REFERENCE: generated from kritva-program; dates are proposed targets, not approved | Proposed milestones |
+| 6 | [planning/MILESTONE_STATUS.md](planning/MILESTONE_STATUS.md) | REFERENCE: the repository's own record, as of the governance baseline commit | Milestone status and evidence |
+| 7 | [planning/REVIEW_CHECKLIST.md](planning/REVIEW_CHECKLIST.md) | AUTHORITATIVE for the pull-request review list | What a reviewer checks |
+| 8 | [planning/GIT_COMMIT_STEP.md](planning/GIT_COMMIT_STEP.md) | REFERENCE | How to branch, commit, check, merge and tag |
+| 9 | [planning/CHANGELOG.md](planning/CHANGELOG.md) | REFERENCE | What changed |
+| 10 | [CONTRIBUTING.md](CONTRIBUTING.md) | AUTHORITATIVE for contribution steps | How to contribute |
+| 11 | [SECURITY.md](SECURITY.md) | AUTHORITATIVE for vulnerability reporting (route tested 18 October 2026, owner-attested) | How to report a vulnerability |
 
 ## 5. Repository Structure and File Responsibilities
 
@@ -68,8 +69,9 @@ Labels: INPUT is edited by hand and read by a tool or review; GENERATED is writt
 | [tests/](tests/) | `commit_message_check/` (commit checker tests) and `readme_check/` (README checker tests) | EVIDENCE; IMPLEMENTED | Tests of the checkers only; no test of the contract exists |
 | [.github/](.github/) | CODEOWNERS, pull request template, `kritva-gate.json` and four workflows | AUTHORITATIVE | `kritva-gate.json` configures the PR gate |
 | [Makefile](Makefile) | Check targets; unimplemented gates exit 3 | INPUT; IMPLEMENTED | See section 11 |
+| [docs/architecture/](docs/architecture/) | Architecture overview, eight ADRs and upstream dependency register | PROPOSED; proposed in discussion, repository adoption pending | Architecture baseline candidate |
 | [AGENTS.md](AGENTS.md), [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), [LICENSE](LICENSE) | Rules, contribution steps, security policy, licence | AUTHORITATIVE | |
-| `src/`, `include/`, `docs/`, `status/`, `examples/` | Source, interfaces, documentation, status report, examples | NOT YET IMPLEMENTED (absent) | Added only when a real task needs them |
+| `src/`, `include/`, `status/`, `examples/` | Source, interfaces, status report, examples | NOT YET IMPLEMENTED (absent) | Added only when a real task needs them |
 
 ## 6. Toolchain and Development Workflow
 
@@ -91,12 +93,12 @@ make check-readme   # check: structural check of this README only
 
 | Dependency | Direction | Kind | Contract | State |
 |---|---|---|---|---|
-| kritva-core | upstream | planned contract use; no Git submodule, build or runtime link | approved platform contract (planned) | PLANNED: no contract version is pinned and no source link exists |
-| kritva-mind | upstream | planned contract use; no Git submodule, build or runtime link | versioned Mind contract (planned) | PLANNED: Mind has no contract yet |
-| kritva-motion | upstream | planned contract use; no Git submodule, build or runtime link | versioned Motion contract (planned) | PLANNED: Motion has no contract yet |
-| kritva-raas | peer (control plane) | planned contract use; no Git submodule, build or runtime link | none yet | PLANNED: no interface exists |
+| kritva-core | upstream | planned contract use; no Git submodule, build or runtime link | trusted identity/role interface | UNDEFINED: no approved contract version or immutable reference is pinned |
+| kritva-mind | upstream | planned contract use; no Git submodule, build or runtime link | versioned Mind result/proposal contract | DRAFT: `0.1.0-draft`, source commit `7569b80`; not approved or normative |
+| kritva-motion | upstream | planned contract use; no Git submodule, build or runtime link | versioned Motion command/lifecycle contract | DRAFT: source commit `d286114`; not approved or normative |
+| public platform integration boundary | peer interface | contract-only; no private implementation dependency | public platform integration API | UNDEFINED: no approved public interface contract is established |
 
-No dependency is established. The planned dependencies come from the repository's plan (kritva-core (approved contract), kritva-mind and kritva-motion (versioned contracts)); exact versions or commit SHAs are to be recorded in [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md) when the contracts they refer to are approved, and none is pinned yet. Five kinds of relationship are kept apart: program ordering, Git submodule, source or build dependency, runtime integration, and governance or status reporting. A PLANNED dependency is not an integration that exists.
+The Mind and Motion references above pin the reviewed source snapshots for traceability only; both contracts remain DRAFT and are not approved runtime dependencies. Identity/Core, public platform integration, registry, capability vocabulary and precondition interfaces remain UNDEFINED. Per-dispatch identity and registry checks make those services runtime availability dependencies; freshness, cache and timeout policy remain open in [DEPENDENCY_REGISTER.md](docs/architecture/DEPENDENCY_REGISTER.md). Five kinds of relationship are kept apart: program ordering, Git submodule, source or build dependency, runtime integration, and governance or status reporting. A PLANNED dependency is not an integration that exists.
 
 ## 8. Milestones and Implementation Plan
 
@@ -105,17 +107,17 @@ Proposed milestones, from [planning/MILESTONE.md](planning/MILESTONE.md) (genera
 | ID | Program milestone | Status recorded here | Outcome (proposed) |
 |---|---|---|---|
 | V2-M0-SKILL-001 | V2-M0 FOUNDATION | IN_REVIEW (this change) | Repository governance baseline merged: acceptance criteria, CI checks, CODEOWNERS, AGENTS.md. |
-| V2-M1-SKILL-001 | V2-M1 STUDIO | PROPOSED | Skill manifest and execution contract (task 001) reviewed and tagged v0.1.0. |
-| V2-M2-SKILL-001 | V2-M2 BUILD & ARTIFACT | PROPOSED | Manifest validation and lifecycle conformance tests pass; gates implemented. |
-| V2-M3-SKILL-001 | V2-M3 CONTROL PLANE | PROPOSED | Skill execution exposed through the control-plane contract. |
-| V2-M5-SKILL-001 | V2-M5 EXECUTION | PROPOSED | Skills execute through the runtime against simulated capabilities. |
-| V2-M8-SKILL-001 | V2-M8 PRODUCTION | PROPOSED | Release and security review complete. |
+| V2-M1-SKILL-001 | V2-M1 STUDIO | PROPOSED | Architecture baseline and normative manifest/execution-contract schemas (schemas are not yet produced). |
+| PROPOSED-NEW-SKILL-002 | V2-M2 BUILD & ARTIFACT | PROPOSED programme work item | Build and package. |
+| PROPOSED-NEW-SKILL-003 | V2-M3 CONTROL PLANE | PROPOSED programme work item | Control Plane registration through an approved public interface. |
+| PROPOSED-NEW-SKILL-004 | V2-M5 EXECUTION | PROPOSED programme work item | Runtime against simulated capabilities; resolve multi-proposal scheduling. |
+| PROPOSED-NEW-SKILL-005 | V2-M8 PRODUCTION | PROPOSED programme work item | Production readiness. |
 
-The target dates are in [planning/MILESTONE.md](planning/MILESTONE.md); they are proposed targets, not approved dates and not delivery commitments (program decision PD-001). The status table is "as of the governance baseline commit" and may lag the repository (it shows the governance baseline as IN_REVIEW although the baseline change has since been merged). A milestone closes only through an approved `COMPLETION_RECORD.md`; a tag or a merge does not close it, and no completion record exists.
+The target dates are in [planning/MILESTONE.md](planning/MILESTONE.md); they are proposed targets, not approved dates and not delivery commitments (program decision PD-001). The M1 target of 2026-11-30 is withdrawn as a credible delivery target; the package is architecture documentation only and normative schemas remain outstanding. A revised date requires an approved kritva-program baseline amendment. No M1 progress or completion is claimed. The status table is "as of the governance baseline commit" and may lag the repository (it shows the governance baseline as IN_REVIEW although the baseline change has since been merged). A milestone closes only through an approved `COMPLETION_RECORD.md`; a tag or a merge does not close it, and no completion record exists.
 
 ## 9. Tasks and Acceptance Criteria
 
-- **Where tasks live.** [planning/TASKS.md](planning/TASKS.md) lists the tasks (registry type `repo-tasks-md`, prefix `KOS-SKILL`); the proposed task registry is program decision PD-004. Tasks are planning inventory with no weight and no credit until a separately approved baseline amendment.
+- **Where tasks live.** [planning/TASKS.md](planning/TASKS.md) lists the tasks (registry type `repo-tasks-md`, prefix `KOS-SKILL`); the proposed task registry is program decision PD-004. Tasks are planning inventory with no weight and no credit until a separately approved baseline amendment. The v12 snapshot's `PROPOSED-NEW-SKILL-002` through `PROPOSED-NEW-SKILL-005` are programme planning work items only; do not add them to `planning/TASKS.md`. Any ID, scope, weight or milestone change requires a kritva-program baseline amendment.
 - **Acceptance.** [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md) holds the criteria and test gates; they are proposed until the owner approves the task. Unimplemented gates are reported as NOT_IMPLEMENTED and are never counted as a pass. [planning/REVIEW_CHECKLIST.md](planning/REVIEW_CHECKLIST.md) is the review list.
 - Work is not accepted because a commit or merged pull request exists, a check is green or a milestone says it is proposed. Interface and boundary changes, safety and security behaviour and dependency changes need human review ([AGENTS.md](AGENTS.md)).
 
@@ -127,7 +129,7 @@ A `status/` directory holds `status/status.json` (schema 2.0), which reports fac
 
 | Dimension | Source record | Authority |
 |---|---|---|
-| Execution | the task status in [planning/TASKS.md](planning/TASKS.md); KOS-SKILL-001 is NOT_STARTED | The task owner records it |
+| Execution | the task status in [planning/TASKS.md](planning/TASKS.md); KOS-SKILL-001 is IN_PROGRESS | The task owner records it |
 | Evidence | none recorded: no CI run, test result or review record is cited as task evidence | Evidence is recorded at acceptance, by the author, and checked by another reviewer |
 | Acceptance | [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md), the review record and the central approvals in kritva-program | The independent reviewer and the owner, never a status report |
 | Release readiness | not defined: no release, tag or completion record exists | The owner, through the central gates |

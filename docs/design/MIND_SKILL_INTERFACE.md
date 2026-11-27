@@ -1,6 +1,6 @@
-# Design note: Mind proposal to Skill execution (PROPOSED)
+# Design note: Mind proposal to Skill execution (PROPOSED; ADR-RECONCILED)
 
-Task: KOS-SKILL-001. Status: proposed, not approved, not reviewed by anyone but the owner, who holds the architecture review role on an interim basis (program decision D-047). It answers the seven questions in kritva-mind `ARCHITECTURE.md` section 12 and `contract/COMPATIBILITY.md`. Every statement below is a proposal. Nothing here is a released interface, and nothing in it is hardware or safety validation.
+Task: KOS-SKILL-001. Status: design input; reconciled with proposed architecture decisions agreed in discussion on 2026-11-27; repository adoption pending. This note remains proposed and is not a released interface. It answers the seven questions in kritva-mind `ARCHITECTURE.md` section 12 and `contract/COMPATIBILITY.md`. Every statement below is a proposal. Nothing here is a released interface, and nothing in it is hardware or safety validation.
 
 ## 0. Basis and limits
 
@@ -16,7 +16,7 @@ Proposal:
 - **Version.** Skill versions are SemVer `MAJOR.MINOR.PATCH`. The manifest declares exactly one version. A reference to a concrete skill is `skill_id` plus `version`.
 - **Constraint grammar (closed).** Exact `1.2.3`; caret `^1.2.0` (same MAJOR, at least this version; for 0.x, same MINOR); range `>=1.2.0 <2.0.0`. No wildcards, no tags such as `latest`.
 - **Can Mind propose a constraint without pinning an unapproved version?** Yes, because a constraint is a selector over versions Skill already holds, never a pin and never an approval. Skill resolves it only among manifest versions whose approval state is APPROVED. A constraint cannot make an unapproved or pre-release version eligible, even if it names that version exactly; such a proposal is DECLINED with `SKILL_VERSION_UNAVAILABLE`. When several versions match, Skill picks the highest and records which one. Mind should not need to know which versions exist. Mind's schema now states the same rule: a constraint selects among versions the consumer holds and is never a pin or an approval.
-- **Open (not decided here):** where the approval state of a skill version is recorded and who sets it. That is a program decision, not a Skill invention.
+- **Resolved at architecture level by ADR-002:** repository release establishes immutable identity; a trusted platform registry separately approves the exact release. Registry API, authority and schema remain contract work.
 
 ## (b) What Skill needs to resolve a proposal
 
@@ -60,12 +60,12 @@ Skill must still adopt these on its side (unverified: no Skill schema exists to 
 | Preconditions met | may state assumptions | evaluates its own |
 | Context and observations still fresh at execution time | evaluated at inference time | re-evaluated at execution time |
 | Result status allows use | sets it | policy below |
-| Authorization to execute | never | Skill only, by a policy this note does not define |
+| Authorization to execute | never | Skill only, using RBAC per ADR-001 and trusted platform identity |
 | Uncertainty, `rationale`, `priority` | produces them | advisory only; never grant authority; `priority` orders candidates and nothing more |
 
-**Parameter validation by Mind.** This repository's [AGENTS.md](../../AGENTS.md) says capability repositories must not depend on Skill, and Mind is one. Mind's current draft is consistent with that: Mind may validate parameters only against a schema handed to it as runtime data, within its limited validator subset, and otherwise validates nothing against Skill. Skill's input schema must therefore stay within that subset if Mind is to use it (open: nobody has checked this). Either way Skill repeats the check against its own manifest. Skill orders candidates with Mind's rule (`priority` ascending, then `proposal_id`) and treats the order as a hint, not a decision.
+**Parameter validation by Mind.** This repository's [AGENTS.md](../../AGENTS.md) says capability repositories must not depend on Skill, and Mind is one. Mind's current draft is consistent with that: Mind may validate parameters only against a schema handed to it as runtime data, within its limited validator subset, and otherwise validates nothing against Skill. Skill's input schema must therefore stay within that subset if Mind is to use it (open: nobody has checked this). Either way Skill repeats the check against its own manifest. Mind's draft defines proposal-ordering metadata (`priority` ascending, then `proposal_id`), but that metadata does not define Skill's execution scheduling across multiple CLEARED proposals. ADR-005/007 leave this explicitly OPEN: when one result contains several CLEARED proposals, the Skill runtime selection/serialization policy must be decided under proposed V2-M5 work item `PROPOSED-NEW-SKILL-004`. Until then, no cross-proposal dispatch order or concurrency is implied. Mind's draft is not yet jointly reviewed for alignment with ADR-005.
 
-**Result-status policy (proposed).** Proposals from a FAILED or CANCELLED result are DECLINED. Proposals from a PARTIAL result are advisory, as Mind also states; they are not executed unless Skill's own policy says so explicitly. The proposed default is to decline them, because `missing[]` states information Mind lacked. A COMPLETED result is eligible, not authorized.
+**Result-status policy (proposed; ADR-005).** Only COMPLETED results are eligible for independent proposal evaluation. PARTIAL results are advisory and declined for execution initially; FAILED and CANCELLED results are declined. COMPLETED means eligible for evaluation, not authorized.
 
 ## (e) Declined proposals, preconditions, cancellation, partial execution, failure
 
@@ -73,7 +73,7 @@ Two separate state machines, so a declined proposal is never confused with a fai
 
 **Proposal disposition:** RECEIVED, then CLEARED or DECLINED. These names are chosen so they do not reuse Motion's ACCEPTED (a submission result and a lifecycle state) or REJECTED (a submission result), and avoid "admitted", which is Motion's word for what ACCEPTED means; CLEARED means only that Skill's own checks passed and the proposal may start a run, nothing about Motion. A DECLINED proposal records one reason code (proposed names, not final): `SKILL_RESULT_MALFORMED`, `SKILL_CONTRACT_INCOMPATIBLE`, `SKILL_RESULT_STATUS`, `SKILL_UNRESOLVED`, `SKILL_VERSION_UNAVAILABLE`, `SKILL_PARAMETERS_INVALID`, `SKILL_PRECONDITION_UNMET`, `SKILL_INPUT_STALE`, `SKILL_NOT_AUTHORIZED`. Declining never executes anything and is never silently retried. Skill does not edit Mind's parameters to make them pass.
 
-**Run lifecycle** (criterion AC-003): loaded, running, completed, cancelled, failed. A run starts only from a CLEARED proposal.
+**Run lifecycle** (criterion AC-003): LOADED, RUNNING, COMPLETED, CANCELLED, FAILED. A run normally starts only from a CLEARED proposal. Immediately before RUNNING, Skill re-checks authorization and exact release eligibility; if the re-check fails, the run transitions LOADED -> FAILED without Motion dispatch, with a reason code and `termination_status=NOT_REQUESTED`.
 
 **Separate from Motion (proposed).** Skill's run lifecycle (loaded, running, completed, cancelled, failed) and Motion's public command lifecycle are separate state machines, and no pairing of the two sets of names is proposed here. Facts about Motion, taken from the public kritva-motion `main` at commit `d286114` (pull request 9), read by the owner on 2026-11-03, source `contract/MOTION_CONTRACT.md` (draft revision 4: "not independently reviewed, not tagged"; no tags exist; no other repository may rely on it until it is reviewed and tagged v0.1.0):
 
@@ -90,9 +90,9 @@ Not verified: nothing was executed; the Motion contract is an unreviewed, untagg
 **Correlating Mind and Motion (proposed).** Skill derives the Motion `client_request_id` deterministically from the Mind `result_id` and `proposal_id`, plus a step index when one proposal needs several Motion commands, so that a retry repeats the same identifier and Motion's idempotency (7.4) applies, and the Motion command can be traced to the proposal. Open: Motion limits identifiers to 1 to 128 characters from `A-Z a-z 0-9 . _ : -`, and Mind's `Id` allows 1 to 128 characters of any kind, so a derived identifier can be too long or contain a forbidden character; a reversible or hashed encoding is needed and is not designed here.
 
 - **Unmet precondition:** checked before `running`; the run does not start and the report gives a defined error naming the precondition `id` (AC-002).
-- **Cancellation:** two different things. Cancelling a Mind request (`MIND_CANCELLED`) leads to its proposals being DECLINED, as above. Cancelling a Skill run is cooperative: the run ends `cancelled` and the report states how far it got. Who may cancel is not decided here.
+- **Cancellation:** cancelling a Mind request (`MIND_CANCELLED`) leads to its proposals being DECLINED. Cancelling a Skill run requires the RBAC `skill.cancel` permission per ADR-006; emergency stop remains independent. An active Motion command is handled as the approved Motion/platform safety contract requires; abrupt termination is not mandated. Report `CANCELLED` only when the required stopped or safe-terminal outcome is confirmed; otherwise report FAILED with the appropriate termination_status.
 - **Partial execution:** the report lists steps or effects that did happen and those that did not. Whether effects can be undone is a per-skill manifest declaration (for example `reversible`, `idempotent`) that does not yet exist; until it does, Skill must not claim rollback.
-- **Failure:** state `failed` with a defined error (code, severity, message, detail), plus the partial-execution record above. Resource use is reported in defined fields (AC-004).
+- **Failure:** state `FAILED` with a defined error (code, severity, message, detail), plus the partial-execution record above. Every terminal report carries `termination_status` (`CONFIRMED`, `UNRESOLVED`, `NOT_REQUESTED`). A safety-stop report records whether Skill initiated the stop or observed a platform/independent safety-system stop. Resource use is reported in defined fields (AC-004).
 
 ## (f) What Skill returns for traceability
 
@@ -125,6 +125,15 @@ Items 1 to 6 of the first version of this note were adopted in Mind's draft (see
 2. Mind's `COMPATIBILITY.md` Skill section still describes this note's earlier wording (gaps and two names for one rejection code); this version supersedes it.
 3. Nothing in the Mind draft names Skill's `SKILL_*` reason codes or Skill's report; that is Skill-side design and is not a Mind change.
 
-## Not decided, needs the owner
+## Remaining open contract work
 
-Approval state and registry of skill versions; the authorization policy; the precondition `check` vocabulary; who may cancel a run; whether PARTIAL results may ever be executed; the mapping between Skill's run lifecycle and Motion's public command states (not designed); how a skill is decomposed into joint-level Motion commands while Motion v0.1.0 has no end-effector or multi-joint targets (Skill-side design, not Mind's); the Core identity assertion Skill must pass to Motion (PROVISIONAL, Core's security interface is not pinned).
+The architecture decisions previously listed as undecided are resolved in ADR-001 through ADR-008. The remaining work is specification and upstream alignment, not another selection of those architecture options:
+
+1. Approve and pin the Mind result/proposal contract; jointly verify the COMPLETED-only initial eligibility rule and field compatibility.
+2. Approve and pin Motion's command, query, cancellation, lifecycle, identity and idempotency contracts.
+3. Approve and pin Core/platform identity and trusted role-assignment interfaces.
+4. Specify the public registry API and approval authority.
+5. Define the initial capability and precondition vocabularies, permission/scope grammar, Skill error codes, event schema, final report schema and resource fields.
+6. Specify cancellation timeout/acknowledgement semantics and the Motion command correlation/idempotency encoding.
+
+These are normative contract-design blockers. They do not invalidate the architecture decisions already selected, and they do not authorize implementation against unapproved upstream drafts.
