@@ -1,7 +1,7 @@
 # ADR-002: Hybrid Skill Release Identity and Execution Approval
 
 **Task:** KOS-SKILL-001  
-**Status:** PROPOSED — AGREED IN ARCHITECTURE DISCUSSION; PENDING REPOSITORY ADOPTION THROUGH PR REVIEW
+**Status:** PROPOSED — REPOSITORY-ADOPTED; NORMATIVE CONTRACT APPROVAL PENDING UPSTREAM REVIEW
 **Decision:** C — Hybrid repository release identity plus trusted platform approval registry  
 **Decision date:** 2026-11-27
 

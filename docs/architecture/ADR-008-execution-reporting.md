@@ -1,7 +1,7 @@
 # ADR-008: Append-Only Execution Events and Consolidated Report
 
 **Task:** KOS-SKILL-001  
-**Status:** PROPOSED — AGREED IN ARCHITECTURE DISCUSSION; PENDING REPOSITORY ADOPTION THROUGH PR REVIEW
+**Status:** PROPOSED — REPOSITORY-ADOPTED; NORMATIVE CONTRACT APPROVAL PENDING UPSTREAM REVIEW
 **Decision:** C — Append-only event history plus consolidated final report  
 **Decision date:** 2026-11-27
 

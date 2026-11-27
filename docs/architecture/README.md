@@ -1,7 +1,7 @@
 # KOS-SKILL-001 Architecture Consolidation Package
 
 **Task:** KOS-SKILL-001 — Skill manifest and execution contract  
-**Package status:** PROPOSED — AGREED IN ARCHITECTURE DISCUSSION; PENDING REPOSITORY ADOPTION THROUGH PR REVIEW  
+**Package status:** PROPOSED — REPOSITORY-ADOPTED; NORMATIVE CONTRACT APPROVAL PENDING UPSTREAM REVIEW  
 **Prepared:** 2026-11-27
 
 ## Purpose
@@ -20,7 +20,7 @@ This package consolidates the eight architecture decisions made by the project o
 - [ADR-008](ADR-008-execution-reporting.md) — append-only event history and consolidated report
 
 ## Decision status
-All eight ADRs have the common status PROPOSED — AGREED IN ARCHITECTURE DISCUSSION; PENDING REPOSITORY ADOPTION THROUGH PR REVIEW. Discussion agreement is not repository adoption, implementation approval or programme acceptance. They become repository-adopted only after review and merge through the repository's required process. No independent review is implied.
+All eight ADRs have the common status PROPOSED — REPOSITORY-ADOPTED; NORMATIVE CONTRACT APPROVAL PENDING UPSTREAM REVIEW. They were adopted into this repository as a proposed architecture baseline by pull request #25 and recorded in kritva-program as D-158. Repository adoption is not implementation approval, normative contract approval or programme acceptance; the status changes only after the relevant upstream contract owners complete compatibility review and a separate owner decision authorizes it. No independent review is implied.
 
 ## Scope boundary
 This package defines architecture direction and contract requirements. It does not implement a registry, identity provider, authorization service, capability registry service, safety controller, Skill runtime, Motion adapter, event store or resource measurement system.
@@ -34,7 +34,7 @@ This package defines architecture direction and contract requirements. It does n
 6. Run repository checks and record results on the exact PR head.
 7. Obtain approvals required by current programme repository-pipeline rules.
 
-Until repository adoption and relevant upstream contracts are approved, these documents are architecture decisions and design inputs only, not externally consumable API specifications.
+Until the relevant upstream contracts are approved and a separate owner decision changes their status, these documents are architecture decisions and design inputs only, not externally consumable API specifications.
 
 
 ## Programme alignment (snapshot v12)

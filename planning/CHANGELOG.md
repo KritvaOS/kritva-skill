@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Marked the eight ADRs PROPOSED, REPOSITORY-ADOPTED after pull request #25, and recorded the program decisions D-158 and D-159 (PD-022 tracks the V2-M1 reforecast); corrected a literal line break in the task record. No approval, weight or credit change (Task: KOS-SKILL-001).
+
 - Added the KOS-SKILL-001 architecture consolidation package: architecture overview, eight proposed ADRs agreed in discussion and pending repository adoption and upstream dependency register; repository adoption and normative contract work remain pending (Task: KOS-SKILL-001).
 
 - Governance baseline: acceptance criteria, planning files, CI checks, CODEOWNERS, AGENTS.md, SECURITY.md (Task: KOS-SKILL-001 planning; program milestone V2-M0-SKILL-001).
